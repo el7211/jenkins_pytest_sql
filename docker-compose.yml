@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: test-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1qaz@WSX3edc
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "1qaz@WSX3edc", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  pytest-runner:
+    image: python:3.11
+    container_name: test-runner
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - ./tests:/tests
+      - ./requirements.txt:/requirements.txt
+    working_dir: /tests
+    command: >
+      bash -c "
+        pip install -r /requirements.txt &&
+        pytest"
