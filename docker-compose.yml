@@ -1,21 +1,35 @@
-version: '3.8'
-
 services:
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    build:
+      context: .
+      dockerfile: Dockerfile.sqlserver
     container_name: test-sql
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=1qaz@WSX3edc
     ports:
       - "1433:1433"
+    volumes:
+      - ./init-data.sql:/init-data.sql
+    environment:
+      SA_PASSWORD: ${MYSQL_SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+    command: >
+      /bin/bash -c "
+        /opt/mssql/bin/sqlservr & 
+        for i in {1..10}; do
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MYSQL_SA_PASSWORD} -Q 'SELECT 1' && break
+          echo 'Waiting for SQL Server to be ready...'
+          sleep 5
+        done &&
+        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MYSQL_SA_PASSWORD} -i /init-data.sql &&
+        wait
+      "
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "1qaz@WSX3edc", "-Q", "SELECT 1"]
+      test: [ "CMD", "sqlcmd", "-S", "127.0.0.1,1433", "-U", "sa", "-P", "${MYSQL_SA_PASSWORD}", "-Q", "SELECT 1" ]
       interval: 10s
       timeout: 5s
       retries: 10
-
   pytest-runner:
+    env_file:
+      - .env
     image: python:3.11
     container_name: test-runner
     depends_on:
@@ -28,4 +42,7 @@ services:
     command: >
       bash -c "
         pip install -r /requirements.txt &&
-        pytest"
+        pytest -s &&    
+        tail -f /dev/null"
+# Run pytest with the -s flag to capture print statements in the output
+# tail -f /dev/null is to keep pytest-runner alive after running the test
