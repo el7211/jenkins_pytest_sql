@@ -11,17 +11,16 @@ jenkins-pytest-sql
 ├── init-data.sql              # SQL script to initialize test data in SQL Server
 ├── requirements.txt           # Python dependencies for pytest and pymssql
 ├── tests/                     # Directory containing a pytest
-│   └── test_addition.py       # Pytest file to test addition logic
+│   └── test_db.py             # Pytest file to test addition logic
 └── .env                       # Environment variables for containerized services
 ```
 
 
 ## Installation & Usage
 
-### 1. Clone the repository
+### 1. Clone the repository and cd to the directory
 
 ```
-git clone https://github.com/your-username/jenkins-pytest-sql.git
 cd jenkins-pytest-sql
 ```
 ### 2. Configure environment variables
