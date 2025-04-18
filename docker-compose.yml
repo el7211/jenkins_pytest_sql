@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.sqlserver
     container_name: test-sql
+    platform: linux/amd64
     ports:
       - "1433:1433"
     volumes:
