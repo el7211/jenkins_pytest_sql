@@ -40,7 +40,7 @@ services:
        - .:/app
   #    - ./tests:/tests
   #    - ./requirements.txt:/requirements.txt
-    working_dir: /tests
+    working_dir: /app
     command: >
       bash -c "
         echo 'Listing /app contents...' &&
