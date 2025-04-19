@@ -37,8 +37,7 @@ services:
       sqlserver:
         condition: service_healthy
     volumes:
-      - ${WORKSPACE}/requirements.txt:/app/requirements.txt
-      - ${WORKSPACE}/tests:/app/tests
+      - ${WORKSPACE}:/app
   #    - ./tests:/tests
   #    - ./requirements.txt:/requirements.txt
     working_dir: /app
@@ -49,7 +48,7 @@ services:
         echo 'Full Path to requirements.txt: /app/requirements.txt' &&
         echo '📂 File type of requirements.txt...' &&
         file /app/requirements.txt &&
-        pip install --no-cache-dir -r /app/requirements.txt &&
+        pip install -r /app/requirements.txt &&
         echo 'Running pytest...' &&
         pytest -s /app/tests"
 # Run pytest with the -s flag to capture print statements in the output
