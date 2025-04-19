@@ -42,7 +42,6 @@ services:
     working_dir: /tests
     command: >
       bash -c "
-        set -e &&
         echo 'Installing dependencies...' &&
         pip install -r /requirements.txt &&
         echo 'Running pytest...' &&
