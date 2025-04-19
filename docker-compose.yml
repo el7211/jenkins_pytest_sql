@@ -45,7 +45,6 @@ services:
         echo 'Installing dependencies...' &&
         pip install -r /requirements.txt &&
         echo 'Running pytest...' &&
-        pytest -s &&
-        tail -f /dev/null"
+        pytest -s"
 # Run pytest with the -s flag to capture print statements in the output
 # tail -f /dev/null is to keep pytest-runner alive after running the test
