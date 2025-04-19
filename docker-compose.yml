@@ -37,7 +37,8 @@ services:
       sqlserver:
         condition: service_healthy
     volumes:
-       - ${WORKSPACE}:/app
+      - ${WORKSPACE}/requirements.txt:/app/requirements.txt
+      - ${WORKSPACE}/tests:/app/tests
   #    - ./tests:/tests
   #    - ./requirements.txt:/requirements.txt
     working_dir: /app
