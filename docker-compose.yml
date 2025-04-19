@@ -37,8 +37,9 @@ services:
       sqlserver:
         condition: service_healthy
     volumes:
-      - ./tests:/tests
-      - ./requirements.txt:/requirements.txt
+       - .:/app
+  #    - ./tests:/tests
+  #    - ./requirements.txt:/requirements.txt
     working_dir: /tests
     command: >
       bash -c "
