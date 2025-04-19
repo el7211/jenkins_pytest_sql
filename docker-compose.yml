@@ -43,6 +43,8 @@ services:
     working_dir: /tests
     command: >
       bash -c "
+        echo 'Listing /app contents...' &&
+        ls /app &&
         echo 'Installing dependencies...' &&
         pip install -r /app/requirements.txt &&
         echo 'Running pytest...' &&
