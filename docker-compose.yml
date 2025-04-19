@@ -44,7 +44,7 @@ services:
     command: >
       bash -c "
         echo 'Installing dependencies...' &&
-        pip install -r /requirements.txt &&
+        pip install -r /app/requirements.txt &&
         echo 'Running pytest...' &&
         pytest -s"
 # Run pytest with the -s flag to capture print statements in the output
