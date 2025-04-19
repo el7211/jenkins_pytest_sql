@@ -45,8 +45,8 @@ services:
       bash -c "
         echo 'Listing /app contents...' &&
         ls /app &&
-        echo 'Installing dependencies...' &&
-        pip install -r /app/requirements.txt &&
+        echo 'Full Path to requirements.txt: /app/requirements.txt' &&
+        pip install --no-cache-dir -r /app/requirements.txt &&
         echo 'Running pytest...' &&
         pytest -s"
 # Run pytest with the -s flag to capture print statements in the output
