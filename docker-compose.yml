@@ -42,8 +42,11 @@ services:
     working_dir: /tests
     command: >
       bash -c "
+        set -e &&
+        echo 'Installing dependencies...' &&
         pip install -r /requirements.txt &&
-        pytest -s &&    
+        echo 'Running pytest...' &&
+        pytest -s &&
         tail -f /dev/null"
 # Run pytest with the -s flag to capture print statements in the output
 # tail -f /dev/null is to keep pytest-runner alive after running the test
