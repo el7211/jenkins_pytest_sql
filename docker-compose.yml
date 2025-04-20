@@ -37,9 +37,9 @@ services:
       sqlserver:
         condition: service_healthy
     volumes:
-      - ${WORKSPACE}:/app
-  #    - ./tests:/tests
-  #    - ./requirements.txt:/requirements.txt
+       - ${WORKSPACE}:/app
+  #     - ./tests:/tests
+  #     - ./requirements.txt:/requirements.txt
     working_dir: /app
     command: >
       bash -c "
@@ -49,7 +49,10 @@ services:
         echo '📂 File type of requirements.txt...' &&
         file /app/requirements.txt &&
         pip install -r /app/requirements.txt &&
+        echo 'Sleeping 5s to ensure DB is ready...' &&
+        sleep 5 &&
         echo 'Running pytest...' &&
-        pytest -s /app/tests"
+        pytest -s /app/tests &&
+        tail -f /dev/null"
 # Run pytest with the -s flag to capture print statements in the output
 # tail -f /dev/null is to keep pytest-runner alive after running the test
